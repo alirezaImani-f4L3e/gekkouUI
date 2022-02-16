@@ -1,0 +1,19 @@
+.body__container {
+    height: 100vh;
+}
+
+.gekko__btn {
+    width: max-content;
+}
+
+.gekko__main {
+    background-color: white;
+}
+
+.gekko__height {
+    height: max-content !important;
+}
+
+.gekko__button {
+    cursor: pointer;
+}

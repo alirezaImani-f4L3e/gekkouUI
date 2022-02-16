@@ -1,7 +1,7 @@
 import NavbarContainer from "./Navbar/NavbarContainer";
 import SidebarContainer from "./Sidebar/SidebarContainer";
 import FooterContainer from "./Footer/FooterContainer";
-import ContentContainer from "./Content/ContentContainer";
+import ContentContainer from "./Body/ContentContainer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {

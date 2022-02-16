@@ -1,12 +1,33 @@
-import React from "react";
+import { useEffect } from "react";
 import NotificationItem from "./NotificationItem";
 
 const Navbarcontainer = () => {
+  function toggleSidebar(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (document.body.classList.contains("sidebar-open")) {
+      document.body.classList.replace("sidebar-open", "sidebar-collapse");
+    } else {
+      document.body.classList.replace("sidebar-collapse", "sidebar-open");
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("click", (event) => {
+      if (window.innerWidth < "992") {
+        document.body.classList.replace("sidebar-open", "sidebar-collapse");
+      }
+    });
+  }, []);
   return (
     <nav className="main-header navbar navbar-expand bg-white navbar-light border-bottom">
       <ul className="navbar-nav">
         <li className="nav-item">
-          <a className="nav-link" data-widget="pushmenu" href="#">
+          <a
+            className="nav-link gekko__button"
+            data-widget="pushmenu"
+            onClick={toggleSidebar}
+          >
             <i className="fa fa-bars"></i>
           </a>
         </li>
