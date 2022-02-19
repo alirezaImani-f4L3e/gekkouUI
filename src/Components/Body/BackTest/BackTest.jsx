@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import Selectcomponent from "./SelectComponent";
+import { ToastContainer } from "react-toastify";
 import {
   getStrategiesData,
   sendBacktestData,
 } from "../../../api/backTest/index";
-import { timeUnits } from "../../../utils/shared";
+import { timeUnits, errorToast, successToast } from "../../../utils/shared";
 import { prepareBacktestData } from "../../../utils/backTest";
 import Choosedata from "./ChooseData";
+import Testresult from "./TestResult";
 
-const Backtest = () => {
+const Backtest = ({ setLoading, loading }) => {
   const [strategies, setStrategies] = useState([]);
   const [paperConfig, setPaperConfig] = useState({});
   const [inputs, setInputs] = useState({
@@ -20,7 +22,7 @@ const Backtest = () => {
     asset: "",
     currency: "",
   });
-
+  const [backtestResult, setBacktestResult] = useState({});
   const [test, setTest] = useState(false);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ const Backtest = () => {
         });
       })
       .catch((error) => {
-        console.log(error);
+        errorToast(error);
       });
   }, []);
 
@@ -77,27 +79,28 @@ const Backtest = () => {
   }
 
   function handleBacktest(event) {
-    setTest(true);
     const data = prepareBacktestData(inputs, paperConfig);
+    setLoading(true);
     sendBacktestData(data)
       .then((response) => {
-        console.log(response.data);
+        setBacktestResult(response.data);
+        successToast("تست با موفقیت انجام شد");
+        setTest(true);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        errorToast("اجرای تست با مشکل مواجه شد ");
+        setLoading(false);
       });
   }
 
   return (
-    <div className="content-wrapper">
-      <p>{inputs.asset}</p>
-
-      <div className="content-header">
-        <div className="container-fluid">
-          <div className="row mb-2 d-flex flex-column">
-            <div className="col-sm-6">
-              <h1 className="m-0 text-dark">Back test </h1>
-            </div>
+    <div className="content-wrapper card card-danger">
+      <div className="content-header pt-0">
+        <div className="row mb-2 d-flex flex-column">
+          <div className="col-12 card-header">
+            <h1 className="m-0 text-dark card-title">تست استراتژی</h1>
           </div>
         </div>
       </div>
@@ -113,7 +116,7 @@ const Backtest = () => {
             />
           </div>
           <section className="d-flex flex-row justify-content-between">
-            <div className="form-group col-5">
+            <div className="form-group col-5 p-0">
               <label className="mb-3">اندازه کندل ها</label>
               <input
                 type="number"
@@ -122,7 +125,7 @@ const Backtest = () => {
                 onChange={handleCandleSize}
               />
             </div>
-            <div className="form-group col-5 ">
+            <div className="form-group col-5 p-0">
               <label className="mb-3">واحد زمان</label>
               <Selectcomponent
                 items={timeUnits.map((unit) => unit.name)}
@@ -173,16 +176,14 @@ const Backtest = () => {
         <button
           className="btn btn-outline-info gekko_btn mb-3"
           onClick={handleBacktest}
+          disabled={loading}
         >
           اجرای تست
         </button>
       </div>
 
-      {test && (
-        <div className="col-12 d-flex flex-row justify-content-center">
-          <p>fkejfeijjfejio</p>
-        </div>
-      )}
+      {test && <Testresult data={backtestResult} />}
+      <ToastContainer />
     </div>
   );
 };

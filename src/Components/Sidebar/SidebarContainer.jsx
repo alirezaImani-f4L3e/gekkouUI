@@ -43,9 +43,8 @@ const SidebarContainer = () => {
               data-accordion="false"
             >
               <SidebarListItem title="داشبورد" link="/dashboard" />
-              <SidebarListItem title="live gekko" link="live" />
-              <SidebarListItem title="backTest" link="backtest" />
-              <SidebarListItem title="local data" link="localdata" />
+              <SidebarListItem title="تحلیل زنده" link="live" />
+              <SidebarListItem title="تست استراتژی" link="backtest" />
             </ul>
           </nav>
         </div>

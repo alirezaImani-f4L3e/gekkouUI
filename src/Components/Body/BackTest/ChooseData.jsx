@@ -64,7 +64,7 @@ const Choosedata = ({ inputs, callback }) => {
           />
         </div>
         <div className="col-12 col-md-4 d-flex flex-column justify-content-center">
-          <label className="mb-2">ارز</label>
+          <label className="mb-2">ارز پایه</label>
 
           <Selectcomponent
             items={selectedExchange.currencies}
@@ -72,7 +72,7 @@ const Choosedata = ({ inputs, callback }) => {
           />
         </div>
         <div className="col-12 col-md-4 d-flex flex-column justify-content-center">
-          <label className="mb-2">دارایی</label>
+          <label className="mb-2">توکن</label>
           <Selectcomponent
             items={selectedExchange.assets}
             callback={handleTokenChange}
